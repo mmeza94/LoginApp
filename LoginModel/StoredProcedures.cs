@@ -8,6 +8,6 @@ namespace LoginModel
 {
     public class StoredProcedures
     {
-        public static string InsNewUser = "[Login].[InsNewUser]";
+        public static string InsNewUser = "[Login].[InsertNewUser]";
     }
 }

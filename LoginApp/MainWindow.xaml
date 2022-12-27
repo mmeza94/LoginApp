@@ -83,8 +83,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="/Images/Email.png" Height="20"/>
-                        <TextBlock x:Name="textEmail"  Text="Email" Style="{StaticResource textHint}"/>
-                        <TextBox x:Name="txtEmail"  Style="{StaticResource TextBox}"/>
+                        <!--<TextBlock x:Name="textEmail"  Text="Emai" Style="{StaticResource textHint}"/>-->
+                        <TextBox x:Name="txtEmail" Text="{Binding Email}" Style="{StaticResource TextBox}"/>
 
                     </Grid>
                 </Border>
@@ -97,8 +97,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Image Source="/Images/Lock.png" Height="20"/>
-                        <TextBlock x:Name="textPassword"  Text="Password" Style="{StaticResource textHint}"/>
-                        <PasswordBox x:Name="txtPassword"  Style="{StaticResource TextBox}"/>
+                        <!--<TextBlock x:Name="textPassword"  Text="Password" Style="{StaticResource textHint}"/>-->
+                        <PasswordBox x:Name="txtPassword" Style="{StaticResource TextBox}"/>
 
                     </Grid>
                 </Border>

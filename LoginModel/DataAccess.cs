@@ -5,7 +5,7 @@ namespace LoginModel
 {
     public class DataAccess
     {
-        private string connectionString = "Data Source=DESKTOP-5NPFBF9,Database=Prueba,Integrated Security=True";
+        private string connectionString = "Data Source=DESKTOP-5NPFBF9;Database=Prueba;Integrated Security=True";
 
         #region Singleton
         private static DataAccess _instance;
@@ -35,12 +35,6 @@ namespace LoginModel
 
 
 
-        private SqlCommand SelectCommand(string ProcedureName, SqlConnection connection)
-        {
-            SqlCommand cmd = new SqlCommand(ProcedureName, connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            return cmd;
-        }
 
 
 
@@ -48,7 +42,10 @@ namespace LoginModel
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                SqlCommand cmd = SelectCommand(StoredProcedures.InsNewUser, connection);
+                connection.Open();
+
+                SqlCommand cmd = new SqlCommand(StoredProcedures.InsNewUser, connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
                 cmd.Parameters.Add("@email", System.Data.SqlDbType.NVarChar).Value = Parameters["@email"];
                 cmd.Parameters.Add("@Password", System.Data.SqlDbType.NVarChar).Value = Parameters["@Password"];

@@ -12,7 +12,7 @@ namespace LoginViewModel
 
         #region Properties
         private string email;
-        private string password;
+        private object password;
 
         public string Email
         {
@@ -25,7 +25,7 @@ namespace LoginViewModel
             }
         }
 
-        public string Password
+        public object Password
         {
             get { return password; }
             set
@@ -54,7 +54,7 @@ namespace LoginViewModel
             {
                 if (signUp == null)
                 {
-                    signUp = new RelayCommand(param => this.RegisterNewUser(param)); 
+                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser(PasswordBox)); 
                 }
                 return signUp;
             }
@@ -65,21 +65,25 @@ namespace LoginViewModel
         #region CommandExecute
 
 
-        private void RegisterNewUser(object param)
+        private void RegisterNewUser(object PasswordBox)
         {
-            var a = (PasswordBox)param;
-            
-
-
-            Dictionary<string, object> Parameters = new Dictionary<string, object>();
-            Parameters.Add("@email", email);
-            Parameters.Add("@Password", password);
+            var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
             DataAccess.Instance.RegisterNewUser(Parameters);
-
+            CleanTextBox(PasswordBox);
+            
         }
 
 
         #endregion
+
+
+
+        private void CleanTextBox(object PasswordBox)
+        {
+            Email=string.Empty;
+            ((PasswordBox)PasswordBox).Password=string.Empty;
+        }
+
 
 
     }
