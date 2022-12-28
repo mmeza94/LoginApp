@@ -7,6 +7,7 @@
         xmlns:vm="clr-namespace:LoginViewModel;assembly=LoginViewModel"
         mc:Ignorable="d"
         WindowStyle="none"
+        ShowInTaskbar="False"
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="CenterScreen"
@@ -15,7 +16,7 @@
     <Window.Resources>
         <vm:LoginAppVM x:Key="vm"/>
     </Window.Resources>
-    
+
     <Grid DataContext="{Binding Source={StaticResource vm}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -105,7 +106,43 @@
 
                 <Button Content="Sign In" Style="{StaticResource mainbutton}"/>
 
+
+
+                <!--<Popup Name="myPopup2" IsOpen="True">
+                    <TextBlock Name="myPopupText2" 
+             Background="LightBlue" 
+             Foreground="Blue">
+    Popup Text
+                    </TextBlock>
+                </Popup>-->
+
+
+                <!--<Popup Name="myPopup" IsOpen="True" PopupAnimation="Fade">
+                    <Border BorderThickness="1">
+                        <TextBlock Name="myPopupText" Background="LightBlue" Foreground="Blue" Padding="30">
+                Popup Text
+                        </TextBlock>
+                    </Border>
+                </Popup>-->
+
+                <DockPanel  Width="500" Background="Aqua">
+                    <Popup Placement="Center" PlacementRectangle="0,0,30,50" 
+                           IsOpen ="True" 
+                           AllowsTransparency="True"
+                           PopupAnimation="Fade">
+                        <TextBlock Background="Purple">
+                            Popup Text
+                        </TextBlock>
+                    </Popup>
+                </DockPanel>
+
+
             </StackPanel>
+
+
+
+
+
         </Border>
     </Grid>
 </Window>

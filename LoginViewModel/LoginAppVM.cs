@@ -1,7 +1,9 @@
 ﻿using LoginModel;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
-
+using System.Windows.Media;
 
 namespace LoginViewModel
 {
@@ -39,6 +41,19 @@ namespace LoginViewModel
         #endregion
 
 
+        public LoginAppVM()
+        {
+            //Popup codePopup = new Popup();
+            //codePopup.VerticalAlignment 
+            //TextBlock popupText = new TextBlock();
+            //popupText.Text = "Popup Text alskdjalskdjalskdjalskdjalskjdalskdjalskdj";
+            //popupText.Background = Brushes.LightBlue;
+            //popupText.Foreground = Brushes.Blue;
+            //codePopup.Child = popupText;
+            //codePopup.IsOpen = true;
+        }
+
+
         #region Commands
 
         private ICommand signUp;
@@ -67,10 +82,13 @@ namespace LoginViewModel
 
         private void RegisterNewUser(object PasswordBox)
         {
-            var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
-            DataAccess.Instance.RegisterNewUser(Parameters);
+            Task.Run(() => {
+                var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
+                DataAccess.Instance.RegisterNewUser(Parameters);
+            });
+
             CleanTextBox(PasswordBox);
-            
+
         }
 
 
