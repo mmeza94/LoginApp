@@ -7,27 +7,28 @@ using System.Windows.Media;
 
 namespace LoginViewModel
 {
-    public class LoginAppVM: ViewModelBase
+    public class LoginAppVM : ViewModelBase
     {
 
 
 
         #region Properties
         private string email;
-        private object password;
+        private string password;
+        private PasswordBox loginpasswordBox;
 
         public string Email
         {
             get { return email; }
-            set 
-            { 
+            set
+            {
                 if (email == value) return;
                 email = value;
                 onPropertyChanged("Email");
             }
         }
 
-        public object Password
+        public string Password
         {
             get { return password; }
             set
@@ -38,13 +39,24 @@ namespace LoginViewModel
             }
         }
 
+        public PasswordBox LoginPasswordBox
+        {
+            get { return loginpasswordBox; }
+            set
+            {
+                if (loginpasswordBox == value) return;
+                loginpasswordBox = value;
+                onPropertyChanged("LoginPasswordBox");
+            }
+        }
+
         #endregion
 
 
         public LoginAppVM()
         {
             //Popup codePopup = new Popup();
-            //codePopup.VerticalAlignment 
+            //codePopup.VerticalAlignment = VerticalAlignment.Center;
             //TextBlock popupText = new TextBlock();
             //popupText.Text = "Popup Text alskdjalskdjalskdjalskdjalskjdalskdjalskdj";
             //popupText.Background = Brushes.LightBlue;
@@ -69,12 +81,13 @@ namespace LoginViewModel
             {
                 if (signUp == null)
                 {
-                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser(PasswordBox)); 
+                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser(PasswordBox));
                 }
                 return signUp;
             }
         }
-        #endregion
+
+        
 
 
         #region CommandExecute
@@ -82,12 +95,17 @@ namespace LoginViewModel
 
         private void RegisterNewUser(object PasswordBox)
         {
-            Task.Run(() => {
+            Task.Run(() =>
+            {
                 var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
                 DataAccess.Instance.RegisterNewUser(Parameters);
+            })
+            .ContinueWith(t =>
+            {
+                this.CleanTextBox(PasswordBox);
             });
 
-            CleanTextBox(PasswordBox);
+
 
         }
 
@@ -96,13 +114,58 @@ namespace LoginViewModel
 
 
 
+        #region CanExecute
+
+        private bool ValidatePassword(object passwordBox)
+        {
+            LoginPasswordBox = ((PasswordBox)passwordBox);
+
+           // if (IsPasswordLengthValid(LoginPasswordBox.Password))
+                return false;
+            //if (IsPasswordFormatValid(LoginPasswordBox))
+            //    return false;
+            return true;
+        }
+        #endregion
+
+
+        #endregion
+
+
+
+
+
+
         private void CleanTextBox(object PasswordBox)
         {
-            Email=string.Empty;
-            ((PasswordBox)PasswordBox).Password=string.Empty;
+
+            Application.Current.Dispatcher.Invoke(new Action(() =>
+            {
+                Email = string.Empty;
+                ((PasswordBox)PasswordBox).Password = string.Empty;
+
+            }));
+
+            
+        }
+
+        private bool IsPasswordLengthValid(string currentPassword)
+        {
+
+
+            if (currentPassword.Length < 8)
+                MessageBox.Show("Password muy corto");
+                 return false;
+            return true;
         }
 
 
+        private bool IsPasswordFormatValid(object currentPassword)
+        {
+            //if(currentPassword.Contains(@"[1-9]"))
+            //    return false;
+            return true;
+        }
 
     }
 }
