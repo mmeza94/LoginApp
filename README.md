@@ -4,8 +4,7 @@
 * [Manejo del archivo SQL](#manejo-del-archivo-sql)
   * [Retos](#retos)
 * [Alcance de base de datos](#alcance-de-base-de-datos)
-<br>
-<br>
+
 
 ## Manejo del archivo SQL
 
@@ -15,8 +14,7 @@ El archivo data.sql es el que prepare es referente a un sistema de escuela, la e
 
 - Identificar porque no es compatible con otras bases de datos.
 - Solucionar problemas de incompatibilidad que puedan llegar a surgir.
-<br>
-<br>
+
 
 ## Alcance de base de datos
 
