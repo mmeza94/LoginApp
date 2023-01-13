@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginApp", "LoginApp\LoginA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoginViewModel", "LoginViewModel\LoginViewModel.csproj", "{04478FBE-FAD9-4641-AF49-82039255CF5D}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Procedures", "Procedures\Procedures.sqlproj", "{8CB130AD-F109-479E-A659-DE882C1FD02A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,12 @@ Global
 		{04478FBE-FAD9-4641-AF49-82039255CF5D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04478FBE-FAD9-4641-AF49-82039255CF5D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04478FBE-FAD9-4641-AF49-82039255CF5D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB130AD-F109-479E-A659-DE882C1FD02A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CB130AD-F109-479E-A659-DE882C1FD02A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CB130AD-F109-479E-A659-DE882C1FD02A}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{8CB130AD-F109-479E-A659-DE882C1FD02A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CB130AD-F109-479E-A659-DE882C1FD02A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CB130AD-F109-479E-A659-DE882C1FD02A}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -138,7 +138,7 @@ namespace LoginViewModel
             {
                 if (signUp == null)
                 {
-                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser2(PasswordBox));
+                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser(PasswordBox));
                 }
                 return signUp;
             }
@@ -175,40 +175,7 @@ namespace LoginViewModel
 
         #region CommandExecute
 
-        private void RegisterNewUser2(object PasswordBox)
-        {
-            Task.Run(() =>
-            {
-
-
-                Util = new Validations(Email, (PasswordBox)PasswordBox, this);
-
-
-                if (!Util.IsEmailValid())
-                {
-                    ShowPopUpError("Email Inválido");
-                    return;
-                }
-
-
-                if (!Util.ValidatePassword())
-                {
-                    var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
-                    DataAccess.Instance.RegisterNewUser(Parameters);
-                    ShowPopUpSuccess("Registro Existoso!");
-                }
-
-                return;
-
-            })
-            .ContinueWith(t =>
-            {
-                this.CleanTextBox(PasswordBox);
-            });
-
-
-
-        }
+        
 
 
 
@@ -251,7 +218,7 @@ namespace LoginViewModel
         #endregion
 
 
-        private bool Is
+        //private bool Is
 
 
 
