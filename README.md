@@ -6,7 +6,6 @@
 * [Alcance de base de datos](#alcance-de-base-de-datos)
 <br>
 <br>
-#
 
 ## Manejo del archivo SQL
 
