@@ -15,7 +15,7 @@ namespace LoginViewModel
 
 
 
-        #region Properties
+        #region Private Properties
         private string email;
         private string password;
         private PasswordBox loginpasswordBox;
@@ -23,7 +23,11 @@ namespace LoginViewModel
         private bool popupVisibilityError;
         private string errorMessage;
         private string successMessage;
+        #endregion
 
+
+
+        #region Public Properties
 
 
         public string ErrorMessage
@@ -47,8 +51,6 @@ namespace LoginViewModel
                 onPropertyChanged("SuccessMessage");
             }
         }
-
-
 
         public string Email
         {
@@ -113,24 +115,33 @@ namespace LoginViewModel
 
 
 
+
+        public DispatcherTimer timer;
         public Validations Util { get; set; }
 
 
+        #region Constructor
         public LoginAppVM()
         {
-            //Util = new Validations(this.Email);
+            timer = new DispatcherTimer();
         }
+
+
+        #endregion
 
 
         #region Commands
 
         private ICommand signUp;
         private ICommand signIn;
+        private ICommand closeApp;
 
         #endregion
 
 
-        #region CommandExecute
+        #region Public Commands
+
+
 
         public ICommand SignUp
         {
@@ -156,29 +167,39 @@ namespace LoginViewModel
             }
         }
 
-        DispatcherTimer timer = new DispatcherTimer();
-
-        private void PopupExecute(object param)
+        public ICommand CloseApp
         {
+            get
+            {
+                if (closeApp == null)
+                {
+                    closeApp = new RelayCommand(param => this.CloseApplication(param));
+                }
+                return closeApp;
+            }
+        }
 
-
-            
+        private void CloseApplication(object param)
+        {
+            Application.Current.Shutdown();
         }
 
 
 
-
+    
 
 
         #endregion
 
 
+
+
+
         #region CommandExecute
 
-        
 
 
-
+        private void PopupExecute(object param) { }
 
         private void RegisterNewUser(object PasswordBox)
         {
@@ -218,9 +239,10 @@ namespace LoginViewModel
         #endregion
 
 
-        //private bool Is
 
 
+
+        #region Methods
 
         private void CleanTextBox(object PasswordBox)
         {
@@ -273,7 +295,7 @@ namespace LoginViewModel
 
 
 
-
+        #endregion
 
 
 

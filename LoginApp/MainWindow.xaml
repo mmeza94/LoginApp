@@ -23,9 +23,13 @@
             <ColumnDefinition Width="1.5*"/>
         </Grid.ColumnDefinitions>
 
-        <Image Source="/Images/close.png" Grid.Column="1" Panel.ZIndex="1" Style="{StaticResource imgClose}"/>
+        <Image Source="/Images/close.png" Grid.Column="1" Cursor="Hand" Panel.ZIndex="1" Style="{StaticResource imgClose}" >
+            <Image.InputBindings>
+                <MouseBinding Command="{Binding CloseApp}" MouseAction="LeftClick"/>
+            </Image.InputBindings>
+        </Image>
 
-        <Border CornerRadius="10 0 0 10">
+            <Border CornerRadius="10 0 0 10">
             <Border.Background>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="#3AA9AD" Offset="0"/>
