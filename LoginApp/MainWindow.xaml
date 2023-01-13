@@ -91,6 +91,7 @@
                 </Border>
 
                 <Border BorderThickness="1" BorderBrush="#acb0af" Margin="70 7" CornerRadius="5">
+                    
                     <Grid Margin="7 9">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto"/>
@@ -104,38 +105,62 @@
                     </Grid>
                 </Border>
 
-                <Button Content="Sign In" Style="{StaticResource mainbutton}"/>
+                <Button Content="Sign In" Style="{StaticResource mainbutton}" Command="{Binding SignIn}"/>
 
 
-
-                <!--<Popup Name="myPopup2" IsOpen="True">
-                    <TextBlock Name="myPopupText2" 
-             Background="LightBlue" 
-             Foreground="Blue">
-    Popup Text
-                    </TextBlock>
-                </Popup>-->
-
-
-                <!--<Popup Name="myPopup" IsOpen="True" PopupAnimation="Fade">
-                    <Border BorderThickness="1">
-                        <TextBlock Name="myPopupText" Background="LightBlue" Foreground="Blue" Padding="30">
-                Popup Text
-                        </TextBlock>
-                    </Border>
-                </Popup>-->
-
-                <!--<DockPanel  Width="500" Background="Aqua">
-                    <Popup Placement="Center" PlacementRectangle="0,0,30,50" 
-                           IsOpen ="True" 
+                <DockPanel  Width="400" >
+                    <Popup Placement="Center" 
+                           PlacementRectangle="0,0,30,70"  
+                           IsOpen ="{Binding PopupVisibilitySuccess}" 
                            AllowsTransparency="True"
-                           PopupAnimation="Fade">
-                        <TextBlock Background="Purple">
-                            Popup Text
-                        </TextBlock>
+                           PopupAnimation="Fade"
+                           >
+                        <Border CornerRadius="10"  
+                                Width="300"
+                                Height="65"
+                                Opacity=".7">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#4facfe" Offset="0"/>
+                                    <GradientStop Color="#00f2fe" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" 
+                                       Text="{Binding SuccessMessage}"
+                                       FontSize="16"
+                                       FontWeight="DemiBold"/>
+                        </Border>
                     </Popup>
-                </DockPanel>-->
+                </DockPanel>
 
+                <DockPanel  Width="400" >
+                    <Popup Placement="Center" 
+                           PlacementRectangle="0,0,30,70"  
+                           IsOpen ="{Binding PopupVisibilityError}" 
+                           AllowsTransparency="True"
+                           PopupAnimation="Fade"
+                           >
+                        <Border CornerRadius="10"  
+                                Width="300"
+                                Height="65"
+                                Opacity=".7">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                                    <GradientStop Color="#ff7f49" Offset="0"/>
+                                    <GradientStop Color="#ff6f46" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Border.Background>
+
+                            <TextBlock HorizontalAlignment="Center" 
+                                       VerticalAlignment="Center" 
+                                       Text="{Binding ErrorMessage}"
+                                       FontSize="16"
+                                       FontWeight="DemiBold"/>
+                        </Border>
+                    </Popup>
+                </DockPanel>
 
             </StackPanel>
 

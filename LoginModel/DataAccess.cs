@@ -33,11 +33,6 @@ namespace LoginModel
         #endregion
 
 
-
-
-
-
-
         public int RegisterNewUser(Dictionary<string, object> Parameters)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))

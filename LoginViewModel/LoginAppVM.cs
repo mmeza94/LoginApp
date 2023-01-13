@@ -1,9 +1,12 @@
 ﻿using LoginModel;
+using LoginViewModel.Utils;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace LoginViewModel
 {
@@ -16,6 +19,36 @@ namespace LoginViewModel
         private string email;
         private string password;
         private PasswordBox loginpasswordBox;
+        private bool popupVisibilitySuccess;
+        private bool popupVisibilityError;
+        private string errorMessage;
+        private string successMessage;
+
+
+
+        public string ErrorMessage
+        {
+            get { return errorMessage; }
+            set
+            {
+                if (errorMessage == value) return;
+                errorMessage = value;
+                onPropertyChanged("ErrorMessage");
+            }
+        }
+
+        public string SuccessMessage
+        {
+            get { return successMessage; }
+            set
+            {
+                if (successMessage == value) return;
+                successMessage = value;
+                onPropertyChanged("SuccessMessage");
+            }
+        }
+
+
 
         public string Email
         {
@@ -50,25 +83,49 @@ namespace LoginViewModel
             }
         }
 
+
+        public bool PopupVisibilitySuccess
+        {
+            get { return popupVisibilitySuccess; }
+            set
+            {
+                if (popupVisibilitySuccess == value) return;
+                popupVisibilitySuccess = value;
+                onPropertyChanged("PopupVisibilitySuccess");
+            }
+        }
+
+
+        public bool PopupVisibilityError
+        {
+            get { return popupVisibilityError; }
+            set
+            {
+                if(popupVisibilityError == value) return;
+                popupVisibilityError = value;
+                onPropertyChanged("PopupVisibilityError");
+            }
+        }
+
+
+
         #endregion
+
+
+
+        public Validations Util { get; set; }
 
 
         public LoginAppVM()
         {
-            //Popup codePopup = new Popup();
-            //codePopup.VerticalAlignment = VerticalAlignment.Center;
-            //TextBlock popupText = new TextBlock();
-            //popupText.Text = "Popup Text alskdjalskdjalskdjalskdjalskjdalskdjalskdj";
-            //popupText.Background = Brushes.LightBlue;
-            //popupText.Foreground = Brushes.Blue;
-            //codePopup.Child = popupText;
-            //codePopup.IsOpen = true;
+            //Util = new Validations(this.Email);
         }
 
 
         #region Commands
 
         private ICommand signUp;
+        private ICommand signIn;
 
         #endregion
 
@@ -81,24 +138,68 @@ namespace LoginViewModel
             {
                 if (signUp == null)
                 {
-                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser(PasswordBox));
+                    signUp = new RelayCommand(PasswordBox => this.RegisterNewUser2(PasswordBox));
                 }
                 return signUp;
             }
         }
 
-        
+        public ICommand SignIn
+        {
+            get
+            {
+                if (signIn == null)
+                {
+                    signIn = new RelayCommand(param => this.PopupExecute(param));
+                }
+                return signIn;
+            }
+        }
+
+        DispatcherTimer timer = new DispatcherTimer();
+
+        private void PopupExecute(object param)
+        {
+
+
+            
+        }
+
+
+
+
+
+
+        #endregion
 
 
         #region CommandExecute
 
-
-        private void RegisterNewUser(object PasswordBox)
+        private void RegisterNewUser2(object PasswordBox)
         {
             Task.Run(() =>
             {
-                var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
-                DataAccess.Instance.RegisterNewUser(Parameters);
+
+
+                Util = new Validations(Email, (PasswordBox)PasswordBox, this);
+
+
+                if (!Util.IsEmailValid())
+                {
+                    ShowPopUpError("Email Inválido");
+                    return;
+                }
+
+
+                if (!Util.ValidatePassword())
+                {
+                    var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
+                    DataAccess.Instance.RegisterNewUser(Parameters);
+                    ShowPopUpSuccess("Registro Existoso!");
+                }
+
+                return;
+
             })
             .ContinueWith(t =>
             {
@@ -110,62 +211,111 @@ namespace LoginViewModel
         }
 
 
-        #endregion
 
 
-
-        #region CanExecute
-
-        private bool ValidatePassword(object passwordBox)
+        private void RegisterNewUser(object PasswordBox)
         {
-            LoginPasswordBox = ((PasswordBox)passwordBox);
+            Task.Run(() =>
+            {
 
-           // if (IsPasswordLengthValid(LoginPasswordBox.Password))
-                return false;
-            //if (IsPasswordFormatValid(LoginPasswordBox))
-            //    return false;
-            return true;
+
+                Util = new Validations(Email,(PasswordBox)PasswordBox,this);
+
+
+                if (!Util.IsEmailValid())
+                {
+                    ShowPopUpError("Email Inválido");
+                    return;
+                }
+
+
+                if (!Util.ValidatePassword())
+                {
+                    var Parameters = Helpers.GenerateParameters(Email, PasswordBox);
+                    DataAccess.Instance.RegisterNewUser(Parameters);
+                    ShowPopUpSuccess("Registro Existoso!");
+                }
+
+                return;
+                    
+            })
+            .ContinueWith(t =>
+            {
+                this.CleanTextBox(PasswordBox);
+            });
+
+
+
         }
-        #endregion
-
 
         #endregion
 
 
-
+        private bool Is
 
 
 
         private void CleanTextBox(object PasswordBox)
         {
-
             Application.Current.Dispatcher.Invoke(new Action(() =>
             {
                 Email = string.Empty;
                 ((PasswordBox)PasswordBox).Password = string.Empty;
 
-            }));
-
-            
+            }));   
         }
 
-        private bool IsPasswordLengthValid(string currentPassword)
+        public void ShowPopUpError(string message)
         {
+            ErrorMessage = message;
 
+            PopupVisibilityError = true;
 
-            if (currentPassword.Length < 8)
-                MessageBox.Show("Password muy corto");
-                 return false;
-            return true;
+            timer.Interval = TimeSpan.FromSeconds(1.5);
+            timer.Tick += new EventHandler(ErrorTimer_Tick);
+            timer.Start();
         }
 
 
-        private bool IsPasswordFormatValid(object currentPassword)
+        public void ShowPopUpSuccess(string message)
         {
-            //if(currentPassword.Contains(@"[1-9]"))
-            //    return false;
-            return true;
+            SuccessMessage = message;// "Registro Existoso!";
+
+            PopupVisibilitySuccess = true;
+
+            timer.Interval = TimeSpan.FromSeconds(1.5);
+            timer.Tick += new EventHandler(SuccessTimer_Tick);
+            timer.Start();
         }
+
+
+
+
+        public void ErrorTimer_Tick(object? sender, EventArgs e)
+        {
+            PopupVisibilityError = false;
+            timer.Stop();
+        }
+
+        public void SuccessTimer_Tick(object? sender, EventArgs e)
+        {
+            PopupVisibilitySuccess = false;
+            timer.Stop();
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 }

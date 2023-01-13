@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace LoginModel
 {
-    public class StoredProcedures
+    public static class StoredProcedures
     {
-        public static string InsNewUser = "[Login].[InsertNewUser]";
+        public const string InsNewUser = "[Login].[InsertNewUser]";
     }
 }
